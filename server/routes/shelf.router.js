@@ -31,7 +31,7 @@ router.post('/', (req, res) => {
 /**
  * Delete an item if it's something the logged in user added
  */
-router.delete('/:id', (req, res) => {
+router.delete('/:id', rejectUnauthenticated, (req, res) => {
   const sqlQuery = `DELETE FROM item
   WHERE "id"=$1`;
   const sqlText = [req.params.id];
