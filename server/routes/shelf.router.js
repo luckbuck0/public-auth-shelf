@@ -39,12 +39,20 @@ router.delete('/:id', rejectUnauthenticated, (req, res) => {
   // FIRST QUERY SELECTS THE ITEM - 
   pool.query(sqlQuery, sqlText)
   .then(result => {
-    console.log('This is your selected item:', result.rows[0]);
-    console.log('User deleting item:', req.user);
 
     if (req.user.id === result.rows[0].user_id) {
-      console.log('User approved!')
-      res.sendStatus(200);
+      const sqlDelete = `DELETE FROM item
+      WHERE "id"=$1`;
+      
+      // SECOND QUERY TO DELETE ITEM IF USER AUTH'D
+      pool.query(sqlDelete, sqlText)
+      .then(result => {
+        res.sendStatus(200);
+      }).catch(err => {
+        console.log(err);
+        res.sendStatus(500);
+      })
+
     } else {
       res.sendStatus(403);
     }
