@@ -17,12 +17,19 @@ export default function AddToShelfForm () {
 
   const addItemToShelf = (event) => {
     event.preventDefault();
-    console.log('clicked addItemToShelf');
     const newItem = {
       description: description,
       image_url: imagePath
     }
-    console.log(newItem);
+    if (description !== '' && imagePath !== '') {
+      dispatch({
+        type: 'ADD_ITEM_TO_SHELF',
+        payload: newItem
+      })
+    }
+    else {
+      alert('🤬 FILL OUT BOTH INPUT FIELDS. SERIOUSLY...');
+    }
   }
 
   return (
@@ -35,7 +42,6 @@ export default function AddToShelfForm () {
           placeholder='Item Description'
           onChange={handleDescription}
           value={description}
-          rows='1'
         /> <br />
         <label>Link to image:</label>
         <input
