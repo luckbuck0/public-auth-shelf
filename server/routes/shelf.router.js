@@ -27,7 +27,6 @@ router.get('/', rejectUnauthenticated, (req, res) => {
 router.post('/', (req, res) => {
   const userId = req.user.id;
   const newItem = req.body;
-  
   const sqlText = `
     INSERT INTO item 
       (description,image_url, user_id)
