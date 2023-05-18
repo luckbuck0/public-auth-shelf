@@ -32,13 +32,23 @@ router.post('/', (req, res) => {
  * Delete an item if it's something the logged in user added
  */
 router.delete('/:id', rejectUnauthenticated, (req, res) => {
-  const sqlQuery = `DELETE FROM item
+  const sqlQuery = `SELECT * FROM item
   WHERE "id"=$1`;
   const sqlText = [req.params.id];
   
+  // FIRST QUERY SELECTS THE ITEM - 
   pool.query(sqlQuery, sqlText)
   .then(result => {
-    res.sendStatus(200);
+    console.log('This is your selected item:', result.rows[0]);
+    console.log('User deleting item:', req.user);
+
+    if (req.user.id === result.rows[0].user_id) {
+      console.log('User approved!')
+      res.sendStatus(200);
+    } else {
+      res.sendStatus(403);
+    }
+
   }).catch(err => {
     console.log(err);
     res.sendStatus(500);
