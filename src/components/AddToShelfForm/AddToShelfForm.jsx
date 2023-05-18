@@ -132,10 +132,12 @@ export default function AddToShelfForm () {
     <>
       <h1>Inside Add To Shelf Form</h1>
       <form>
-        {/* <label>Link to image:</label> */}
-          {imageInput()}
-        {/* <label>Description: </label> <br /> */}
+        <label>Link to image:</label>
+        {imageInput()}
+        <br />
+        <label>Description: </label>
         {descriptionInput()}
+        <br />
         <button onClick={addItemToShelf}>Add Item</button>
       </form>
 
