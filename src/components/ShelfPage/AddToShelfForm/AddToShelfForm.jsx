@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import TextareaAutosize from '@mui/base/TextareaAutosize';
 import TextField from '@mui/material/TextField';
+import './AddToShelfForm.css'
 
 export default function AddToShelfForm () {
 
@@ -129,8 +130,8 @@ export default function AddToShelfForm () {
   } // End descriptionInput
 
   return (
-    <>
-      <h1>Inside Add To Shelf Form</h1>
+    <div className="box">
+      <h3>Add an item to the shelf</h3>
       <form>
         <label>Link to image:</label>
         {imageInput()}
@@ -140,7 +141,6 @@ export default function AddToShelfForm () {
         <br />
         <button onClick={addItemToShelf}>Add Item</button>
       </form>
-
-    </>
+    </div>
   )
 }
