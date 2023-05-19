@@ -16,3 +16,8 @@ CREATE TABLE "item" (
     "user_id" INT REFERENCES "user"
 );
 
+-- An initial starting item for the shelf
+INSERT INTO item 
+	(description,image_url, user_id)
+VALUES 
+	('spongebob cake','https://m.media-amazon.com/images/I/71vxSg9iqkS._AC_SX679_.jpg',1);

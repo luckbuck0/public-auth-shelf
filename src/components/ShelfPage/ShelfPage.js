@@ -13,7 +13,7 @@ useEffect(() => {
   dispatch({ 
     type: 'FETCH_SHELF'
   })
-})
+}, []);
 
   return (
     <div className="container">

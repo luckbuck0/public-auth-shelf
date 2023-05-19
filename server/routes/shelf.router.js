@@ -25,13 +25,62 @@ router.get('/', rejectUnauthenticated, (req, res) => {
  * Add an item for the logged in user to the shelf
  */
 router.post('/', (req, res) => {
+  const userId = req.user.id;
+  const newItem = req.body;
+  const sqlText = `
+    INSERT INTO item 
+      (description,image_url, user_id)
+    VALUES
+      ($1, $2, $3)
+  `;
+  const sqlValues = [newItem.description, newItem.image_url, userId];
+
+  pool.query(sqlText, sqlValues)
+    .then((results) => {
+      //If successful, send "Created" status to client
+      res.sendStatus(201)
+    })
+    .catch((error) => {
+      console.log('Error inside POST /shelf:', error);
+      res.sendStatus(500);
+    })
   // endpoint functionality
 });
 
 /**
  * Delete an item if it's something the logged in user added
  */
-router.delete('/:id', (req, res) => {
+router.delete('/:id', rejectUnauthenticated, (req, res) => {
+  const sqlQuery = `SELECT * FROM item
+  WHERE "id"=$1`;
+  const sqlText = [req.params.id];
+  
+  // FIRST QUERY SELECTS THE ITEM - 
+  pool.query(sqlQuery, sqlText)
+  .then(result => {
+
+    if (req.user.id === result.rows[0].user_id) {
+      const sqlDelete = `DELETE FROM item
+      WHERE "id"=$1`;
+      
+      // SECOND QUERY TO DELETE ITEM IF USER AUTH'D
+      pool.query(sqlDelete, sqlText)
+      .then(result => {
+        res.sendStatus(200);
+      }).catch(err => {
+        console.log(err);
+        res.sendStatus(500);
+      })
+
+    } else {
+      res.sendStatus(403);
+    }
+
+  }).catch(err => {
+    console.log(err);
+    res.sendStatus(500);
+  })
+
   // endpoint functionality
 });
 
