@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import TextareaAutosize from '@mui/base/TextareaAutosize';
 import TextField from '@mui/material/TextField';
+import { Button } from '@mui/material';
 import './AddToShelfForm.css'
 
 export default function AddToShelfForm () {
@@ -139,7 +140,17 @@ export default function AddToShelfForm () {
         <label>Description: </label>
         {descriptionInput()}
         <br />
-        <button onClick={addItemToShelf}>Add Item</button>
+        {/* <button onClick={addItemToShelf}>Add Item</button> */}
+        <Button
+          variant="contained"
+          sx={[
+            {backgroundColor: '#007500', fontWeight:'bold'},
+            {'&:hover': {backgroundColor: '#005400'}}
+          ]}
+          onClick={addItemToShelf}
+        >
+          Add Item
+        </Button>
       </form>
     </div>
   )
