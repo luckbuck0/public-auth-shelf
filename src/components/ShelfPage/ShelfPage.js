@@ -15,6 +15,14 @@ useEffect(() => {
   })
 }, []);
 
+  const deleteItem = id => {
+    console.log('Delete item #%o', id);
+    dispatch({
+      type: 'DELETE_ITEM_FROM_SHELF',
+      payload: id
+    });
+  };
+
   return (
     <div className="container">
       <h2>Shelf</h2>
@@ -26,6 +34,7 @@ useEffect(() => {
             <div key={item.id}>
               <img src={item.image_url} alt={item.description} />
               <p>{item.description}</p>
+              <button onClick={() => deleteItem(item.id)}>Delete</button>
             </div>
           )
         })
