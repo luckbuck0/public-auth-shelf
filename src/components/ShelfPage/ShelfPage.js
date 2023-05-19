@@ -3,18 +3,19 @@ import AddToShelfForm from './AddToShelfForm/AddToShelfForm';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import { Button } from '@mui/material';
 
 function ShelfPage() {
 
-const shelf = useSelector(store => store.shelf)
-console.log('this is the shelf',shelf); 
-const dispatch = useDispatch()
+  const shelf = useSelector(store => store.shelf)
+  console.log('this is the shelf', shelf);
+  const dispatch = useDispatch()
 
-useEffect(() => {
-  dispatch({ 
-    type: 'FETCH_SHELF'
-  })
-}, []);
+  useEffect(() => {
+    dispatch({
+      type: 'FETCH_SHELF'
+    })
+  }, []);
 
   const deleteItem = id => {
     console.log('Delete item #%o', id);
@@ -31,12 +32,16 @@ useEffect(() => {
       <p>All of the available items can be seen here.</p>
 
       {
-        shelf.map(item =>{
+        shelf.map(item => {
           return (
             <div key={item.id}>
               <img src={item.image_url} alt={item.description} />
               <p>{item.description}</p>
-              <button onClick={() => deleteItem(item.id)}>Delete</button>
+              <Button
+                variant="contained"
+                onClick={() => deleteItem(item.id)}>
+                Delete
+              </Button>
             </div>
           )
         })
