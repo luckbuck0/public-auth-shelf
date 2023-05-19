@@ -39,6 +39,10 @@ function ShelfPage() {
               <p>{item.description}</p>
               <Button
                 variant="contained"
+                sx={[
+                  {backgroundColor: '#D10000', fontWeight:'bold'},
+                  {'&:hover': {backgroundColor: '#990202'}}
+                ]}
                 onClick={() => deleteItem(item.id)}>
                 Delete
               </Button>
