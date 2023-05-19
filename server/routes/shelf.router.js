@@ -87,8 +87,25 @@ router.delete('/:id', rejectUnauthenticated, (req, res) => {
 /**
  * Update an item if it's something the logged in user added
  */
-router.put('/:id', (req, res) => {
+router.put('/:id', rejectUnauthenticated, (req, res) => {
   // endpoint functionality
+  const description = req.body.description;
+  const image= req.body.image_url
+  const id= req.params.id
+
+  const queryText = `
+    UPDATE item 
+    SET "description"= $1 , "image_url" = $2 
+    WHERE id = $3;
+  `
+  const queryValues = [ description,image,id];
+
+  pool.query(queryText,queryValues)
+  .then(() => {res.sendStatus(200)})
+  .catch((error) =>{
+    console.log('whoops something went wrong in the put route in shelf router.js');
+    res.sendStatus(500);
+  })
 });
 
 /**
