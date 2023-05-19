@@ -25,6 +25,25 @@ router.get('/', rejectUnauthenticated, (req, res) => {
  * Add an item for the logged in user to the shelf
  */
 router.post('/', (req, res) => {
+  const userId = req.user.id;
+  const newItem = req.body;
+  const sqlText = `
+    INSERT INTO item 
+      (description,image_url, user_id)
+    VALUES
+      ($1, $2, $3)
+  `;
+  const sqlValues = [newItem.description, newItem.image_url, userId];
+
+  pool.query(sqlText, sqlValues)
+    .then((results) => {
+      //If successful, send "Created" status to client
+      res.sendStatus(201)
+    })
+    .catch((error) => {
+      console.log('Error inside POST /shelf:', error);
+      res.sendStatus(500);
+    })
   // endpoint functionality
 });
 
