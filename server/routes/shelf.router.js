@@ -59,7 +59,13 @@ router.delete('/:id', rejectUnauthenticated, (req, res) => {
   pool.query(sqlQuery, sqlText)
   .then(result => {
 
-    if (req.user.id === result.rows[0].user_id) {
+    // Check if Item exists: 
+    const item = result.rows[0];
+    if (item === undefined){
+      res.sendStatus(404);
+
+    // If Item exists, continue to user auth check 
+    } else if (req.user.id === item.user_id) {
       const sqlDelete = `DELETE FROM item
       WHERE "id"=$1`;
       

@@ -1,0 +1,8 @@
+.box {
+  width: 20%;
+  /* background-color: rgb(189, 189, 189); */
+  border: solid black 1px;
+  display: grid;
+  justify-content: center;
+  padding: 1%;
+}

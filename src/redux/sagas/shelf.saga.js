@@ -30,10 +30,18 @@ function* updateShelfItem(action){
     }
 }
 
-
-export default function* shelfSaga(){
-    yield takeLatest('FETCH_SHELF', fetchShelf);
-    yield takeLatest('ADD_ITEM_TO_SHELF', addItemToShelf);
-    yield takeLatest('UPDATE_SHELF_ITEM', updateShelfItem)
+function* deleteItemFromShelf(action) {
+    try {
+        yield axios.delete(`/api/shelf/${action.payload}`);
+        yield put({ type: 'FETCH_SHELF' });
+    } catch (error) {
+        console.error(`Error deleting shelf item in ${deleteItemFromShelf.name}:`, error);
+    }
 }
 
+export default function* shelfSaga() {
+    yield takeLatest('FETCH_SHELF', fetchShelf);
+    yield takeLatest('ADD_ITEM_TO_SHELF', addItemToShelf);
+    yield takeLatest('UPDATE_SHELF_ITEM', updateShelfItem);
+    yield takeLatest('DELETE_ITEM_FROM_SHELF', deleteItemFromShelf);
+}
